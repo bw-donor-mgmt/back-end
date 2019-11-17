@@ -2,13 +2,13 @@ const knex = require('../data/db-config.js');
 
 
 
-const findOrg = org => {
-    return knex('organizations').whereRaw('LOWER(name) LIKE ?', '%'+org.toLowerCase()+'%');
-}
-    
+//find organization by name and is case insensitive
+const findOrg = org => knex('organizations').whereRaw('LOWER(name) LIKE ?', '%'+org.toLowerCase()+'%');
 
-const add = user => {
-    return knex('users').insert(user)
-}
+//add user to database to signup
+const add = user => knex('users').insert(user)
 
-module.exports = { findOrg, add}
+//finds user in database for login
+const find = user => knex('users').where(user); 
+
+module.exports = { findOrg, add, find}
