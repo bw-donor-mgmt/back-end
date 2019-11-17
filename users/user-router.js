@@ -10,7 +10,8 @@ const auth = require('../auth/auth-middleware.js')
 router.get('/:id', auth, (req, res) => {
     Users
         .findUserById(req.params.id)
-        .then(r => res.status(200).json(r))
+        .first()
+        .then(r => res.status(200).json({id : r.id, username: r.username, organization_id: r.organization_id}))
         .catch(e => res.status(400).json(e))
 })
 /*************UPDATES A USER**************/
