@@ -1,3 +1,5 @@
+//Where user recieves token
+
 const router = require('express').Router(); 
 
 const bcrypt = require('bcryptjs'); 
@@ -6,10 +8,10 @@ const jwt = require('jsonwebtoken');
 const Users = require('../users/user-model.js'); 
 const {validateUser} = require('../users/users-helper.js');
 
+/*************REGISTERS A USER**************/
 
 router.post('/register', (req, res) => {
     let {username, password, organization} = req.body; 
-    
 
     const validatedResult = validateUser(req.body)
     if (validatedResult.isSuccessful === true){
@@ -20,7 +22,7 @@ router.post('/register', (req, res) => {
         .then(r => {
             console.log(r.id)
             Users
-                .add({username: username, password: password, organization_id: r.id})
+                .addUser({username: username, password: password, organization_id: r.id})
                 .then(saved => {
                     res.status(201).json(saved)
                 })
@@ -37,10 +39,11 @@ router.post('/register', (req, res) => {
     }
 })
 
+/*************lOGS A USER IN**************/
 router.post('/login', (req, res) => {
     const {username, password} = req.body; 
 
-    Users.find({username})
+    Users.findUser({username})
     .first()
     .then(user => {
         if(user && bcrypt.compareSync(password, user.password)){
@@ -58,6 +61,7 @@ router.post('/login', (req, res) => {
           res.status(500).json(error)
         })
 });
+
 
 const getJwtToken = username => {
     const payload = {
