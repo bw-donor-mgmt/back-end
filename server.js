@@ -1,10 +1,5 @@
 require('dotenv').config(); 
 
-//routers
-
-const OrgRouter = require('./organizations/org-router.js');
-
-
 //libraries
 const express = require('express'); 
 const cors = require('cors'); 
@@ -18,7 +13,7 @@ server.use(cors());
 server.use(helmet()); 
 server.use(express.json()); 
 
-server.use('/organizations', OrgRouter)
+
 
 const port = process.env.PORT || 5000; 
 

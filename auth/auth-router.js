@@ -8,26 +8,34 @@ const {validateUser} = require('../users/users-helper.js');
 
 
 router.post('/register', (req, res) => {
-    let user = req.body; 
+    let {username, password, organization} = req.body; 
+    
 
-    const validatedUser = validateUser(user) 
-    if(validatedUser.isSuccessful === true){
-        const hash = bcrypt.hashSync(user.password, 10); 
-        user.password = hash; 
+    const validatedResult = validateUser(req.body)
+    if (validatedResult.isSuccessful === true){
+        const hash = bcrypt.hashSync(password, 10); 
+        password = hash; 
+        Users.findOrg(organization)
+        .first()
+        .then(r => {
+            console.log(r.id)
+            Users
+                .add({username: username, password: password, organization_id: r.id})
+                .then(saved => {
+                    res.status(201).json(saved)
+                })
+                .catch(error => {
+                    res.status(500).json(error)
+                })
+        })
+        
 
-        Users
-            .add(user)
-            .then(r => {
-                res.status(201).json(r)
-            })
-            .catch(e => {
-                res.status(500).json(e)
-            })
-
+        
+      
     }else {
         res.status(400).json({
-            message: "Invalid input", 
-            errors: validatedUser.errors
+        messag: "Invalid info about user ", 
+        errors: validatedResult.errors
         })
     }
 })
