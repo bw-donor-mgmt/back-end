@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); 
 
 const Users = require('../users/user-model.js'); 
+const Org = require('../organizations/org-model.js');
 const {validateUser} = require('../users/users-helper.js');
 
 /*************REGISTERS A USER**************/
@@ -17,18 +18,27 @@ router.post('/register', (req, res) => {
     if (validatedResult.isSuccessful === true){
         const hash = bcrypt.hashSync(password, 10); 
         password = hash; 
+        console.log(organization)
         Users.findOrg(organization)
         .first()
         .then(r => {
-            console.log(r.id)
-            Users
-                .addUser({username: username, password: password, organization_id: r.id})
-                .then(saved => {
-                    res.status(201).json(saved)
-                })
-                .catch(error => {
-                    res.status(500).json(error)
-                })
+            if(r){ organization = r.id } 
+                else{
+                    Org.addOrg({name: `${organization}`})
+                        
+                        .then(r => organization = r)
+                        .catch(e => res.status(400).json(e));
+                }
+                
+                Users
+                    .addUser({username: username, password: password, organization_id: organization})
+                    .then(saved => {
+                        res.status(201).json(saved)
+                    })
+                    .catch(error => {
+                        res.status(500).json(error)
+                    })
+            
         })
       
     }else {
