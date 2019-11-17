@@ -22,22 +22,32 @@ router.post('/register', (req, res) => {
         Users.findOrg(organization)
         .first()
         .then(r => {
-            if(r){ organization = r.id } 
-                else{
-                    Org.addOrg({name: `${organization}`})
-                        
-                        .then(r => organization = r)
-                        .catch(e => res.status(400).json(e));
-                }
-                
+            if(r){ 
                 Users
-                    .addUser({username: username, password: password, organization_id: organization})
+                    .addUser({username: username, password: password, organization_id: r.id})
                     .then(saved => {
                         res.status(201).json(saved)
                     })
                     .catch(error => {
                         res.status(500).json(error)
                     })
+            } 
+                else{
+                    Org.addOrg({name: `${organization}`})
+                        .then(r => Users
+                            .addUser({username: username, password: password, organization_id: r[0]})
+                            .then(saved => {
+                                res.status(201).json(saved)
+                            })
+                            .catch(error => {
+                                res.status(500).json(error)
+                            }))
+                        .catch(e => res.status(400).json(e));
+                }
+                
+                
+                
+                
             
         })
       
