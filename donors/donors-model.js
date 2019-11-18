@@ -9,8 +9,7 @@ const findDonorById = id => knex('donors').where({id});
 //update donor
 const updateDonor = (id, changes) => knex('donors').where({id})
 
-
 //delete donor
 const deleteDonor = id => knex('donors').where({id})
 
-module.exports = {}
+module.exports = {addDonor, findDonorById, updateDonor, deleteDonor}
