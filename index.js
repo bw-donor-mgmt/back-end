@@ -22,5 +22,10 @@ server.use('/donors', auth, DonorsRouter);
 server.use('/donations',auth,  DonationsRouter); 
 
 
+
+
+
+
+
 server.get('/', (req, res) => res.status(200).json({message: 'Server is running'})); 
 
