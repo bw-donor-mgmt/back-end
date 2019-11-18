@@ -11,13 +11,13 @@ const addUser = user => knex('users').insert(user)
 const findUser = user => knex('users').where(user); 
 
 //finds user by id
-const findUserById = id => knex('id', 'username', 'organization_id').from('users').where('id', '=', `${id}`)
+const findUserById = id => knex('id', 'username', 'organization_id').from('users').where({id})
 
 //updates user in the database by user id
-const updateUser = (id, changes) => knex('users').where('id', '=', `${id}`).update({...changes})
+const updateUser = (id, changes) => knex('users').where({id}).update(changes)
 
 //deletes users; cannot be undone
-const deleteUser = id => knex('users').where('id', '=', `${id}`).delete();
+const deleteUser = id => knex('users').where({id}).delete();
 
 
 module.exports = { findOrg, addUser, findUser, updateUser, deleteUser, findUserById}

@@ -16,9 +16,10 @@ router.get('/:id', auth, (req, res) => {
 })
 /*************UPDATES A USER**************/
 router.put('/:id', auth, (req, res) => {
-
+    const id = req.params.id; 
+    const changes = req.body; 
     Users
-        .updateUser(req.params.id)
+        .updateUser(id, changes)
         .then(r => res.status(200).json(r))
         .catch(error => res.status(400).json(error))
 })

@@ -44,11 +44,6 @@ router.post('/register', (req, res) => {
                             }))
                         .catch(e => res.status(400).json(e));
                 }
-                
-                
-                
-                
-            
         })
       
     }else {
