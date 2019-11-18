@@ -17,11 +17,11 @@ The backend is hosted using Heroku [here](https://bountiful2.herokuapp.com/). Th
 
 | Purpose | Method | Enpoint | Requirements |
 --------- | -------- | --------- | -------------- 
-| Register| POST | /register | username(string), password(string)|
+| Register| POST | auth/register | username(string), password(string)|
 | Log in | POST | auth/login | username(string), password(string)|
-| Update | PUT | user/id | see below |
-| Delete | Delete |user/id | |
-|User Info| GET | /user/id | |
+| Update | PUT | user/id | user id |
+| Delete | Delete |user/id | user id |
+|User Info| GET | /user/id | user id |
 
   
   
