@@ -62,10 +62,34 @@ Use axios.delete to delete user account. The only thing that is needed is user i
 
 ### Donors
 
-Add donor 
+#### Add A Donor
+Example 
 
-endpoint: /donors/add
+{
+	"name" : "John Smith", 
+	"phone" : "601-555-555", 
+	"email" : "john.smith@email.com", 
+	"contacted_on" : "10/13/18", 
+	"method" : "email"
+	
+}
+
+Name is required, every other field is optional
+
+endpoint: /donors/
 
 
 
 #### Adding Donor
+
+endpoint:  /donors/donor_id
+
+The response will be the donor with the specified id
+
+#### Updating Donor
+
+You can update a donor by making a put request to: 
+
+endpoint/donors/donors_id
+
+#### Get Donors Past Donation

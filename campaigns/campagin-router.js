@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 const Campaigns = require('./campaign-model.js')
 const Donations = require('../donations/donations-model.js')
-
+const Donors = require('../donors/donors-model.js'); 
 
 //get Campaign by id 
 router.get('/:id', (req, res) => {
@@ -12,6 +12,8 @@ router.get('/:id', (req, res) => {
         .then(r => res.status(200).json(r))
         .catch(e => res.status(400).json(e))
 })
+
+
 
 //get campaign by name
 router.get('/:name', (req, res) => {
@@ -23,12 +25,35 @@ router.get('/:name', (req, res) => {
 })
 
 
-//get campaigns by organization _id
-router.get('/:id/', (req, res) => {
-    Campaigns
-        .getCampaignsByOrg(req.params.id)
+//get all donations made to a campaign
+router.get('/:id/donations', (req, res) => {
+    
+    Donations
+        .getDonationsByCampId(req.params.id)
         .then(r => res.status(200).json(r))
         .catch(e => res.status(400).json(e))
+})
+
+//get all donors made to a campaign
+router.get('/:id/donors', (req, res) => {
+
+    Donors
+        .getDonors()
+        .then( donors => {
+            
+            Donations
+                .getDonationsByCampId(req.params.id)
+                .then(donations => {    
+                    const ids = donations.map(donation => donation.donor_id)   
+                    const campaign_donors = ids.map(id => donors.filter(donor => donor.id === id))
+                    if(campaign_donors){
+                        res.status(200).json(campaign_donors);
+                    }
+                })
+                .catch(e => res.status(400).json(e))
+            })
+        .catch(e => res.status(400).json(e))
+    
 })
 
 //Create new campaign

@@ -12,10 +12,20 @@ router.post('/', (req, res) => {
         .catch(e => res.status(400).json(e))
 })
 
+//add donation for a specific donor
+router.post('/:id/donations', (req, res) => {
+    Donations
+    .addDonationByDonor(req.params.id)
+    .then(r => res.status(201).json(r))
+    .catch(e => res.status(400).json(e))
+})
+
+
 //get donor info by donor id
 router.get('/:id', (req, res) => {
     Donors
         .findDonorById(req.params.id)
+        .first()
         .then(r => res.status(200).json(r))
         .catch(e => res.status(400).json(e))
 })
@@ -32,8 +42,8 @@ router.get('/:id/donations', (req, res) =>{
 //update donor 
 
 router.put('/:id', (req, res) => {
-    Donations
-        .updateDonation(req.params.id, req.body)
+    Donors
+        .updateDonor(req.params.id, req.body)
         .then(r => res.status(202).json(r))
         .catch(e => res.status(400).json(e))
 })
@@ -41,8 +51,8 @@ router.put('/:id', (req, res) => {
 //delete donor
 
 router.delete('/:id', (req, res) => {
-    Donations
-        .deleteDonation(req.params.id)
+    Donors
+        .deleteDonor(req.params.id)
         .then(r => res.status(200).json(r))
         .catch(e => res.status(400).json(e))
 })
