@@ -9,10 +9,13 @@ const getCampaignsByOrg = organization_id => knex('campaigns').where({organizati
 //get campaign by id
 const getCampaignById = id => knex('campaigns').where({id});
 
+//get campaign by name 
+const getCampaignByName = name => knex('campaigns').whereRaw('LOWER(name) LIKE ?', '%'+name.toLowerCase()+'%');
+
 //update campaign
 const updateCampaign = id => knex('campaigns').where({id}).update()
 
 //delete campaign
 const deleteCampaign = id => knex('campaigns').where({id}).delete();
 
-module.exports = {addCampaign, getCampaignsByOrg, getCampaignById, updateCampaign, deleteCampaign}
+module.exports = {addCampaign, getCampaignByName,  getCampaignsByOrg, getCampaignById, updateCampaign, deleteCampaign}
