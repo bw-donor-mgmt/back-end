@@ -4,7 +4,7 @@ const knex = require('../data/db-config.js');
 const addDonation = donation => knex('donations').insert(donation)
 
 //update donation
-const updateDonation = (id, changes) => knex('donations').where({id}).update({...changes})
+const updateDonation = (id, changes) => knex('donations').where({id}).update(changes)
 
 //get donation by id 
 const getDonationById = id => knex('donations').where({id}).first(); 

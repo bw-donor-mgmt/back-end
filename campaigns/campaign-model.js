@@ -13,7 +13,7 @@ const getCampaignById = id => knex('campaigns').where({id});
 const getCampaignByName = name => knex('campaigns').whereRaw('LOWER(name) LIKE ?', '%'+name.toLowerCase()+'%');
 
 //update campaign
-const updateCampaign = id => knex('campaigns').where({id}).update()
+const updateCampaign = (id, changes) => knex('campaigns').where({id}).update(changes)
 
 //delete campaign
 const deleteCampaign = id => knex('campaigns').where({id}).delete();
