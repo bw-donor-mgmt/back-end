@@ -1,13 +1,16 @@
 const knex = require('../data/db-config.js'); 
 
 //add a donor
+const addDonor = donor => knex('donors').insert(donor)
 
 //get donor by id
+const findDonorById = id => knex('donors').where({id});
 
 //update donor
+const updateDonor = (id, changes) => knex('donors').where({id})
 
-//get donors by organization name
 
 //delete donor
+const deleteDonor = id => knex('donors').where({id})
 
 module.exports = {}
