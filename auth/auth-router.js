@@ -20,13 +20,15 @@ router.post('/register', (req, res) => {
         password = hash; 
         console.log(organization)
         Users.findOrg(organization)
+      
         .first()
         .then(r => {
+            const token = getJwtToken(username); 
             if(r){ 
                 Users
                     .addUser({username: username, password: password, organization_id: r.id})
                     .then(saved => {
-                        res.status(201).json(saved)
+                        res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
                     })
                     .catch(error => {
                         res.status(500).json(error)
@@ -37,7 +39,7 @@ router.post('/register', (req, res) => {
                         .then(r => Users
                             .addUser({username: username, password: password, organization_id: r[0]})
                             .then(saved => {
-                                res.status(201).json(saved)
+                                res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
                             })
                             .catch(error => {
                                 res.status(500).json(error)

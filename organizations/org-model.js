@@ -11,7 +11,7 @@ const findOrgById = id => knex('organizations').where('id', '=',`${id}`)
 
 //update
 
-const updateOrg = (id, changes) => knex('organizations').where({id}).update({...changes})
+const updateOrg = (id, changes) => knex('organizations').where({id}).update(changes)
 //delete
 
 const deleteOrg = id => knex('organizations').where({id}).delete()

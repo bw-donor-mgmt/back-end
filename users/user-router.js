@@ -15,11 +15,9 @@ router.get('/:id', auth, (req, res) => {
         .catch(e => res.status(400).json(e))
 })
 /*************UPDATES A USER**************/
-router.put('/:id', auth, (req, res) => {
-    const id = req.params.id; 
-    const changes = req.body; 
+router.put('/:id', auth, (req, res) => { 
     Users
-        .updateUser(id, changes)
+        .updateUser(req.params.id, req.body)
         .then(r => res.status(200).json(r))
         .catch(error => res.status(400).json(error))
 })
