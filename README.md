@@ -1,21 +1,17 @@
 #  Backend For Bountiful
 
-  
-
-The backend is hosted using Heroku here. This is the base url.
+The backend is hosted using Heroku [here](https://bountiful2.herokuapp.com/). This is the base url.
 
   
 
-Base Url
+### Base Url
+
+   https://bountiful2.herokuapp.com/
 
   
   
 
 ###  Endpoints
-
-  
-  
-  
 
 ####  Users
 
@@ -27,10 +23,6 @@ Base Url
 | Delete | Delete |user/id | |
 |User Info| GET | /user/id | |
 
-  
-  
-  
-  
   
   
 
