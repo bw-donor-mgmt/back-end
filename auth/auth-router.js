@@ -18,22 +18,23 @@ router.post('/register', (req, res) => {
     if (validatedResult.isSuccessful === true){
         const hash = bcrypt.hashSync(password, 10); 
         password = hash; 
-        console.log(organization)
+        
         Users.findOrg(organization)
       
         .first()
         .then(r => {
             const token = getJwtToken(username); 
-            if(r){ 
-                Users
-                    .addUser({username: username, password: password, organization_id: r.id})
-                    .then(saved => {
-                        res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
-                    })
-                    .catch(error => {
-                        res.status(500).json(error)
-                    })
-            } 
+            if(r)
+                { 
+                    Users
+                        .addUser({username: username, password: password, organization_id: r.id})
+                        .then(saved => {
+                            res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
+                        })
+                        .catch(error => {
+                            res.status(500).json(error)
+                        })
+                } 
                 else{
                     Org.addOrg({name: `${organization}`})
                         .then(r => Users
@@ -67,7 +68,7 @@ router.post('/login', (req, res) => {
             const token = getJwtToken(user.username); 
       
             res.status(200).json({
-              message: `Welcome ${user.username}!`, 
+              message: `Welcome ${user.username}!`, id: user.id, 
               token
             })
           } else {
@@ -78,6 +79,8 @@ router.post('/login', (req, res) => {
           res.status(500).json(error)
         })
 });
+
+
 
 
 const getJwtToken = username => {

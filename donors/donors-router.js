@@ -1,5 +1,9 @@
 const router = require('express').Router(); 
 
+//to update password
+const bcrypt = require('bcryptjs'); 
+const jwt = require('jsonwebtoken'); 
+
 //models
 const Donors = require('./donors-model.js');
 const Donations = require('../donations/donations-model.js'); 
@@ -42,6 +46,9 @@ router.get('/:id/donations', (req, res) =>{
 //update donor 
 
 router.put('/:id', (req, res) => {
+    if(req.body.password) {
+        
+    }
     Donors
         .updateDonor(req.params.id, req.body)
         .then(r => res.status(202).json(r))
