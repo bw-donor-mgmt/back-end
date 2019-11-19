@@ -28,8 +28,10 @@ exports.up = function(knex) {
     .createTable('campaigns', table => {
         table.increments('id')
         table.string('name', 255).notNullable(); 
+        table.string('description', 500)
         table.decimal('goal', 8, 2)
         table.decimal('raised', 8, 2)
+
         //one organization can have multiple campaigns
         table
             .integer('organization_id')
