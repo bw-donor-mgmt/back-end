@@ -23,7 +23,7 @@ router.get('/:id/info', (req, res) => {
 })
 
 //get campaigns by organization _id
-router.get('/:id/', (req, res) => {
+router.get('/:id/campaigns', (req, res) => {
     Campaigns
         .getCampaignsByOrg(req.params.id)
         .then(r => res.status(200).json(r))
