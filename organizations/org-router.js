@@ -13,7 +13,7 @@ router.get('/:name', (req, res) => {
         .catch(e => res.status(400).json(e))
 })
 
-//get organization by email 
+//get organization by id 
 router.get('/:id/info', (req, res) => {
     Org
         .findOrgById(req.params.id)
