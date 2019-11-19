@@ -17,11 +17,11 @@ The backend is hosted using Heroku [here](https://bountiful2.herokuapp.com/). Th
 
 | Purpose | Method | Enpoint | Requirements |
 --------- | -------- | --------- | -------------- 
-| Register| POST | auth/register | username(string), password(string)|
-| Log in | POST | auth/login | username(string), password(string)|
-| Update | PUT | user/id | user id |
-| Delete | Delete |user/id | user id |
-|User Info| GET | /user/id | user id |
+| Register| POST | /register | username(string), password(string), organization(string)|
+| Log in | POST | /auth/login | username(string), password(string)|
+| Update | PUT | /user/id | see below |
+| Delete | Delete |/user/id | user's id|
+|User Info| GET | /user/id | user's id |
 
   
   
@@ -32,35 +32,22 @@ A user can enter their organization name when signing up or they can update thei
 
 The response you will get back after registering or loggin (with correct credentials) is the username, id, and the token for the user. This token needs to be saved in local storage as authorization header. If there is no token saved to header, the user will not be able to access any other endpoint.
 
-  
-
 A user object will have an id, username (string), password (string), role (string). All of these are required but you DO NOT need to specify id since the database will automatically give the new user an id. You only need to send username and password
-
-  Response Example
-	``{
-	"message": "welcome user user21!",
-	"id": 28,				"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIyMSIsImlhdCI6MTU3NDA5MTAwOCwiZXhwIjoxNTc0MTc3NDA4fQ.957dRoi580QO3wM1LbK-dnEkyn7Agm8PLxHSbGKvXso"
-	}``
 
 ####  Registering A User
 
-  
+##### Endpoint:  `"/register"`
+Use an axios.post to send a user object. You do not need to write a key/value pair for id. An unique id will be given to each user upon signing up. An organization can already exist in the database.
 
-endpoint: /register
+###### Example:
 
-  
-
-Use an axios.post to send a user object. You do not need to write a key/value pair for id. An unique id will be given to each user upon signing up.
-
-Example:
-
-	``{
+	`{
 
 	username: "John1",
 
 	password: "1111",
 
-	organization: "Peace for All" //optional
+	organization: "Peace for All"
 
 	}`
 
@@ -70,37 +57,44 @@ The api will return a token when the user has successfully registered. Please sa
 
 ####  Loggin In
 
-  
-
-endpoint: /login
+##### Endpoint:  `"auth/login"`
 
 Use axios.post to send username and password only. If the username and password is valid, the api will send a token back that needs to be set. Please save the token to a header named "authorization".
+###### Example 
 
-
+    Request:
+	    {
+		    username: "user19", 
+		    password: "1919"
+	    }
+    Response:
+    {
+     "message": "Welcome user19!",
+      "id": 22,
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxOSIsImlhdCI6MTU3NDExNzg4NywiZXhwIjoxNTc0MjA0Mjg3fQ.BGfFNHi3kaXIwWVzERi81f6YmhUGU49fXsirF79Kh_I"
+    }
+    
 ####  Updating User
 
-Endpoint: /user/id
-
-  
+##### Endpoint:  `"user/id"`
 
 Use axios.put to update user information. You can just send the key/value pair that you want to update
-  
 
-Example:
+###### Example:
 
-	{username: 'Umeko2'} //this will only change the username and password will be unchanged
-
-  
+	{username: 'Umeko2'} 
+	//sending the above will only change the username 
+	//and password will be unchanged
+	OR
+	{password: 'newPassword'} 
+	//the above will only change the password
+	
   
 
 ####  Deleting User
-Endpoint : /user/id
+##### Endpoint : `"/user/id"`
 Use axios.delete to delete user account. The only thing that is needed is user id. This cannot be undone
-
-  
-  
-  
-
+  ______________________________________
 ###  Donors
 | Purpose | Method | Enpoint | Requirements |
 --------- | -------- | --------- | -------------- 
@@ -113,65 +107,54 @@ Use axios.delete to delete user account. The only thing that is needed is user i
  
 
 ####  Add A Donor
+Name is required but any other field can be added or updated later
+##### Endpoint:   `"/donors/"`
 
-Example
+###### Example
 
-  
+    {
+    
+    "name" : "John Smith", 
+    
+    "phone" : "601-555-555",
+    
+    "email" : "john.smith@email.com",
+    
+    "contacted_on" : "10/13/18",
+    
+    "method" : "email"
+    
+    }
 
-{
 
-"name" : "John Smith",
+#### Deleting Donor
+##### endpoint: `"/donors/donor_id"`
 
-"phone" : "601-555-555",
+Sending an delete request to this endpoint will delete donor with id
 
-"email" : "john.smith@email.com",
-
-"contacted_on" : "10/13/18",
-
-"method" : "email"
-
-}
-
-  
-
-Name is required, every other field is optional
-
-  
-
-endpoint: /donors/
-
-  
-  
-  
-
-####  Adding Donor
-
-  
-
-endpoint: /donors/donor_id
-
-  
-
-The response will be the donor with the specified id
-
-  
 
 ####  Updating Donor
-
-  
-
 You can update a donor by making a put request to:
+The response will be the donor with the specified id
+##### Endpoint:	
 
-Endpoint:
-/donors/donors_id
+     "/donors/donors_id"
+###### Example
 
+    {
+    username : newUsername
+    }
+
+Only the fields you send will be updated 
+
+__________
 ###  Donations
 | Purpose | Method | Enpoint | Requirements |
 --------- | -------- | --------- | -------------- 
 | Add Donation | POST | /donations| amount(Integer, Floating-point)|
 | Get Donation by Id | GET | /donations/id | donation's id |
-| Update Donation | PUT | donations/id | donation's id |
-| Delete Donation | DELETE |donations/id | donation's id |
+| Update Donation | PUT | /donations/id | donation's id |
+| Delete Donation | DELETE |/donations/id | donation's id |
 | Donation's Info| GET | /donations/id | donation's id |
 | Get Donations for a Donor | GET |/donors/id/donations | donor's id |
 
@@ -180,8 +163,8 @@ Endpoint:
 --------- | -------- | --------- | -------------- 
 | Create Campaign | POST | /campaigns | name(string)|
 | Get Campaign by Id | GET | /campaigns/id | campaign's id |
-| Update Campaign | PUT | campaigns/id | campaign's id |
-| Delete Campaign | DELETE |campaigns/id | campaign's id |
+| Update Campaign | PUT | /campaigns/id | campaign's id |
+| Delete Campaign | DELETE | /campaigns/id | campaign's id |
 |Donor Info| GET | /campaigns/id | campaign's id |
 |Get Campaign Donors | GET | /campaigns/id/donors | campaign's id |
 
@@ -191,8 +174,8 @@ Endpoint:
 | Create Organization | POST | /organizations | name(string), mission(optional)|
 | Get Organization by Id | GET | /organizations/id | Organization's id |
 |Find Organization by name| GET |/organizations/name| Organizations's name|
-| Update Organization | PUT | organizations/id | organizations's id |
-| Delete Organization | DELETE |organizations/id | organization's id |
+| Update Organization | PUT | /organizations/id | organizations's id |
+| Delete Organization | DELETE | /organizations/id | organization's id |
 | Organization Info| GET | /organizations/id | campaign's id |
 
 
