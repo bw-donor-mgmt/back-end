@@ -5,6 +5,12 @@ const Donors = require('../donors/donors-model.js');
 const Donations = require('../donations/donations-model.js');
 const Campaigns = require('../campaigns/campaign-model.js'); 
 
+
+router.get("/", (req, res) => {
+    Org.getAllOrgs()
+    .then(r => res.status(200).json(r))
+    .catch(e => res.status(400).json(e))
+})
 //get organization by name
 router.get('/:name', (req, res) => {
     Org.findOrgByName(req.params.name)
@@ -40,8 +46,7 @@ router.post('/', (req, res) => {
 
 //update organization
 router.put('/:id', (req, res) => {
-    Org
-        .updateOrg(req.params.id)
+    Org.updateOrg(req.params.id)
         .then(r => res.status(202).json(r))
         .catch(e => res.status(400).json(e))
 })
