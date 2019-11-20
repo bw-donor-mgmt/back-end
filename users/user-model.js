@@ -14,7 +14,7 @@ const findUser = user => knex('users').where(user);
 const findUserById = id => knex('id', 'username', 'organization_id').from('users').where({id})
 
 //updates user in the database by user id
-const updateUser = (id, changes) => knex('users').where({id}).update(changes)
+const updateUser = (id, changes) => knex('users').where({id}).update(changes).returning('id')
 
 //deletes users; cannot be undone
 const deleteUser = id => knex('users').where({id}).delete();
