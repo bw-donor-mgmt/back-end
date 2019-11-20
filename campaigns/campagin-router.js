@@ -36,7 +36,7 @@ router.get('/:id/donations', (req, res) => {
 
 //get all donors made to a campaign
 router.get('/:id/donors', (req, res) => {
-
+    let array_donors = []; 
     Donors
         .getDonors()
         .then( donors => {
@@ -44,11 +44,15 @@ router.get('/:id/donors', (req, res) => {
             Donations
                 .getDonationsByCampId(req.params.id)
                 .then(donations => {    
-                    const ids = donations.map(donation => donation.donor_id)   
-                    const campaign_donors = ids.map(id => donors.filter(donor => donor.id === id))
-                    if(campaign_donors){
-                        res.status(200).json(campaign_donors);
-                    }
+                    const ids = donations.map(donation => donation.donor_id)  
+                    ids.forEach(id => donors.forEach(donor => {
+                        if(donor.id === id){
+                            array_donors.push(donor)
+                        }
+                })
+                    
+                )
+                res.status(200).json(array_donors)
                 })
                 .catch(e => res.status(400).json(e))
             })

@@ -14,5 +14,7 @@ const updateDonor = (id, changes) => knex('donors').where('id', id).update(chang
 //delete donor
 const deleteDonor = id => knex('donors').where({id}); 
 
+//get campaign donors
+const donorsByCampaign = id => knex('donors').where('campaign_id', id);
 
-module.exports = {getDonors, addDonor, findDonorById, updateDonor, deleteDonor}
+module.exports = {getDonors, addDonor, findDonorById, updateDonor, deleteDonor, donorsByCampaign}
