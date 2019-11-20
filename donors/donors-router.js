@@ -25,6 +25,13 @@ router.post('/:id/donations', (req, res) => {
 })
 
 
+//get all donors
+
+router.get('/', (req, res) => {
+    Donors.getDonors()
+    .then(r => res.status(200).json(r))
+    .catch(e => res.status(400).json(e))
+})
 //get donor info by donor id
 router.get('/:id', (req, res) => {
     Donors
