@@ -50,7 +50,7 @@ router.put('/:id', (req, res) => {
         
     }
     Donors
-        .updateDonor(req.params.id, req.body)
+        .updateDonor(req.params.id, {...req.body})
         .then(r => res.status(202).json(r))
         .catch(e => res.status(400).json(e))
 })
