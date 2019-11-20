@@ -11,7 +11,7 @@ const Donations = require('../donations/donations-model.js');
 //add new donor
 router.post('/', (req, res) => {
     Donors
-        .addDonor(req.body)
+        .addDonor({...req.body})
         .then(r => res.status(201).json(r))
         .catch(e => res.status(400).json(e))
 })
