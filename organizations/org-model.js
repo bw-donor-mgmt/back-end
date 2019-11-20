@@ -1,5 +1,7 @@
 const knex = require('../data/db-config.js');
 
+//get all organizations
+const getAllOrgs = () => knex('organizations');
 //add
 const addOrg = organization => knex('organizations').insert(organization)
 
@@ -16,4 +18,4 @@ const updateOrg = (id, changes) => knex('organizations').where({id}).update(chan
 
 const deleteOrg = id => knex('organizations').where({id}).delete()
 
-module.exports = { addOrg, findOrgByName, findOrgById, updateOrg, deleteOrg}
+module.exports = { getAllOrgs, addOrg, findOrgByName, findOrgById, updateOrg, deleteOrg}
