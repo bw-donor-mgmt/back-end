@@ -40,6 +40,7 @@ router.post('/register', (req, res) => {
                         .then(r => Users
                             .addUser({username: username, password: password, organization_id: r[0]})
                             .then(saved => {
+                                console.log(saved)
                                 res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
                             })
                             .catch(error => {

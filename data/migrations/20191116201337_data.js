@@ -5,13 +5,13 @@ exports.up = function(knex) {
   return knex.schema
  
   .createTable('organizations', table => {
-    table.increments('id'); 
+    table.increments(); 
     table.string('name', 255).notNullable(); 
     table.string('mission', 500); 
     })
 
     .createTable('users', table => {
-        table.increments('id'); 
+        table.increments(); 
         table.string('username', 255).notNullable();
         table.string('password', 255).notNullable();
         //one organization can multiple board members
@@ -20,13 +20,12 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('organizations')
-            .onDelete('RESTRICT')
-            .onUpdate('CASCADE')
+           
     })
     
 
     .createTable('campaigns', table => {
-        table.increments('id')
+        table.increments()
         table.string('name', 255).notNullable(); 
         table.string('description', 500)
         table.decimal('goal', 8, 2)
@@ -38,12 +37,10 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('organizations')
-            .onDelete('RESTRICT')
-            .onUpdate('CASCADE');
 
     })
     .createTable('donors', table => {
-        table.increments('id')
+        table.increments()
         table.string('name', 255).notNullable();
         table.string('phone', 155);
         table.string('email', 500);
@@ -53,7 +50,7 @@ exports.up = function(knex) {
 
     
     .createTable('donations', table => {
-        table.increments('id')
+        table.increments()
         table.decimal('amount', 8, 2).notNullable(); 
         table.string('date', 500)
         //multiple donations can be made to one campaign
@@ -62,20 +59,18 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('campaigns')
-            .onDelete('RESTRICT')
-            .onUpdate('CASCADE');
+            
         //one donor can make multiple donations
         table
             .integer('donor_id')
             .unsigned()
             .references('id')
             .inTable('donors')
-            .onDelete('RESTRICT')
-            .onUpdate('CASCADE')    
+           
 
 
     })
-    
+
 };
 
 exports.down = function(knex) {
