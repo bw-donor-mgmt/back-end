@@ -5,7 +5,7 @@ const knex = require('../data/db-config.js');
 const findOrg = org => knex('organizations').whereRaw('LOWER(name) LIKE ?', '%'+org.toLowerCase()+'%');
 
 //add user to database to signup
-const addUser = user => knex('users').insert(user)
+const addUser = user => knex('users').insert(user).returning();
 
 //finds user in database for login
 const findUser = user => knex('users').where(user); 
@@ -17,7 +17,7 @@ const findUserById = id => knex('id', 'username', 'organization_id').from('users
 const updateUser = (id, changes) => knex('users').where({id}).update(changes).returning('id')
 
 //deletes users; cannot be undone
-const deleteUser = id => knex('users').where({id}).delete();
+const deleteUser = id => knex('users').where({id}).delete().returning();
 
 
 module.exports = { findOrg, addUser, findUser, updateUser, deleteUser, findUserById}

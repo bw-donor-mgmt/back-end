@@ -3,7 +3,7 @@ const knex = require('../data/db-config.js');
 //all donors
 const getDonors = () => knex('donors')
 //add a donor
-const addDonor = donor => knex('donors').returning('id', 'name', 'email', 'contacted_on', 'method').insert(donor);
+const addDonor = donor => knex('donors').returning('id').insert(donor);
 
 //get donor by id
 const findDonorById = id => knex('donors').where({id});

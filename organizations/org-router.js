@@ -53,10 +53,7 @@ router.put('/:id', (req, res) => {
 
 //delete organization
 router.delete('/:id', (req, res) => {
-    Org
-        .deleteOrg(req.params.id)
-        .then(r => res.status(202).json(r))
-        .catch(e => res.status(400).json(e))
+    Org.deleteOrg(req.params.id).then(r => res.status(202).json(r)).catch(e => res.status(400).json(e))
 })
 
 module.exports = router

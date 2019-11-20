@@ -4,9 +4,9 @@ const knex = require('../data/db-config.js');
 const addDonation = donation => knex('donations').insert(donation)
 
 //add donation for specific donor
-const addDonationByDonor = (donation, donor_id) => knex('donations').insert({...donation, donor_id: donor_id}); 
+const addDonationByDonor = (donation, donor_id) => knex('donations').insert({...donation, donor_id: donor_id}).returning('id'); 
 //update donation
-const updateDonation = (id, changes) => knex('donations').where({id}).update(changes)
+const updateDonation = (id, changes) => knex('donations').where({id}).update(changes).returning('id')
 
 //get donation by id 
 const getDonationById = id => knex('donations').where({id});
@@ -17,7 +17,7 @@ const getDonationsByCampId = campaign_id => knex('donations').where({campaign_id
 //get all donations
 const getDonations = () => knex('donations')
 //delete donation
-const deleteDonation = id => knex('donations').where({id}).delete();
+const deleteDonation = id => knex('donations').where({id}).delete().returning('id');
 
 //get all donations to a campaign 
 const donationsTo = campagin_id => knex('donations').where({campagin_id}); 
