@@ -20,7 +20,7 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('organizations')
-            .onDelete('RESTRICT')
+            .onDelete('CASCADE')
             .onUpdate('CASCADE')
     })
     
@@ -38,7 +38,7 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('organizations')
-            .onDelete('RESTRICT')
+            .onDelete('CASCADE')
             .onUpdate('CASCADE');
 
     })
@@ -50,6 +50,8 @@ exports.up = function(knex) {
         table.string('contacted_on', 500);
         table.string('method', 500);
     })
+
+    
     .createTable('donations', table => {
         table.increments('id')
         table.decimal('amount', 8, 2).notNullable(); 
@@ -60,7 +62,7 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('campaigns')
-            .onDelete('RESTRICT')
+            .onDelete('CASCADE')
             .onUpdate('CASCADE');
         //one donor can make multiple donations
         table
@@ -68,7 +70,7 @@ exports.up = function(knex) {
             .unsigned()
             .references('id')
             .inTable('donors')
-            .onDelete('RESTRICT')
+            .onDelete('CASCADE')
             .onUpdate('CASCADE')    
 
 
