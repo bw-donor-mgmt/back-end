@@ -11,7 +11,7 @@ const addUser = user => knex('users').insert(user).returning();
 const findUser = user => knex('users').where(user); 
 
 //finds user by id
-const findUserById = id => knex('id', 'username', 'organization_id').from('users').where({id})
+const findUserById = id => knex('users').from('users').where('id', '=', id)
 
 //updates user in the database by user id
 const updateUser = (id, changes) => knex('users').where({id}).update(changes).returning('id')
