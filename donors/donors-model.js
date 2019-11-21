@@ -12,7 +12,7 @@ const findDonorById = id => knex('donors').where({id});
 const updateDonor = (id, changes) => knex('donors').where('id', id).update(changes).returning();
 
 //delete donor
-const deleteDonor = id => knex('donors').where({id}); 
+const deleteDonor = id => knex('donors').where({id}).delete().returning('id'); 
 
 //get campaign donors
 const donorsByCampaign = id => knex('donors').where('campaign_id', id);

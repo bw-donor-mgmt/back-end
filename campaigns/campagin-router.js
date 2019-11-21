@@ -60,6 +60,12 @@ router.get('/:id/donors', (req, res) => {
     
 })
 
+//get amount raised 
+router.get('/:id/raised', (req, res)=> {
+    Campaigns.totalRaised(req.params.id)
+    .then(r => res.status(200).json(r))
+    .catch(e => res.status(400).json(e))
+})
 //Create new campaign
 router.post('/', (req, res) => {
     Campaigns
