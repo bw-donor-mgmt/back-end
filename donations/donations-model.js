@@ -1,7 +1,7 @@
 const knex = require('../data/db-config.js'); 
 
 //add donation
-const addDonation = donation => knex('donations').insert(donation)
+const addDonation = donation => knex('donations').insert(donation).returning('*');
 
 //add donation for specific donor
 const addDonationByDonor = (donation, donor_id) => knex('donations').insert({...donation, donor_id: donor_id}).returning('id'); 
