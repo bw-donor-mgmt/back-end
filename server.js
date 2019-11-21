@@ -15,7 +15,7 @@ server.use(express.json());
 server.use(cors()); 
 
 
-const port = process.env.PORT || 5000; 
+const port = process.env.PORT || 4400; 
 
 
 server.listen(port, () => console.log(`SERVER IS RUNNING ON ${port}`)); 
