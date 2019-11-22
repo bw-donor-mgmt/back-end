@@ -114,15 +114,15 @@ Name is required but any other field can be added or updated later
 
     {
     
-    "name" : "John Smith", 
+    name : "John Smith", 
     
-    "phone" : "601-555-555",
+    phone : "601-555-555",
     
-    "email" : "john.smith@email.com",
+    email: "john.smith@email.com",
     
-    "contacted_on" : "10/13/18",
+    contacted_on : "10/13/18",
     
-    "method" : "email"
+    method : "email"
     
     }
 
@@ -148,35 +148,76 @@ The response will be the donor with the specified id
 Only the fields you send will be updated 
 
 __________
+
+The donations are what links the donors and campaigns they donated to together. You will need the id of the donor who made the donation and the id of the campaign they donated to. 
+
+Example: 
+
+    {
+    amount: 80, //integer or floating point
+    date : "09/19/18", //string 
+    campaign_id: 3, //integer 
+    donor_id : 1 //integer
+    }
+
 ###  Donations
-| Purpose | Method | Enpoint | Requirements |
---------- | -------- | --------- | -------------- 
-| Add Donation | POST | /donations| amount(Integer, Floating-point)|
-| Get Donation by Id | GET | /donations/id | donation's id |
-| Update Donation | PUT | /donations/id | donation's id |
-| Delete Donation | DELETE |/donations/id | donation's id |
-| Donation's Info| GET | /donations/id | donation's id |
-| Get Donations for a Donor | GET |/donors/id/donations | donor's id |
+| Purpose | Method | Enpoint | Requirements | Response
+--------- | -------- | --------- | --------------------|------ 
+| Add Donation | POST | /donations| amount(Integer, Floating-point)| id of donation created
+| Get Donation by Id | GET | /donations/id | donation's id | an object containing info about donation
+| Update Donation | PUT | /donations/id | donation's id, campaign's id, donor's id | id of donation updated
+| Delete Donation | DELETE |/donations/id | donation's id | id of donation deleted
+| Get Donations for a Donor | GET |/donors/id/donations | donor's id | an array of all the donors donations
 
+Example: 
+
+    {amount: 80, //integer or floating point
+    date : "09/19/18",  //string
+    campaign_id: 3, //integer
+    donor_id : 1 //integer
+    }
+
+
+------
 ###  Campaigns
-| Purpose | Method | Enpoint | Requirements |
---------- | -------- | --------- | -------------- 
-| Create Campaign | POST | /campaigns | name(string)|
-| Get Campaign by Id | GET | /campaigns/id | campaign's id |
-| Update Campaign | PUT | /campaigns/id | campaign's id |
-| Delete Campaign | DELETE | /campaigns/id | campaign's id |
-|Donor Info| GET | /campaigns/id | campaign's id |
-|Get Campaign Donors | GET | /campaigns/id/donors | campaign's id |
 
+Campaigns are linked to their organization by organization id. Please make sure to provide that information when creating a campaign.
+
+| Purpose | Method | Enpoint | Requirements |Response
+--------- | -------- | --------- | --------------------|------
+| Create Campaign | POST | /campaigns | name(string), organization's id| id of campaign created
+| Get Campaign by Id | GET | /campaigns/id | campaign's id | object of info about campaign
+| Update Campaign | PUT | /campaigns/id | campaign's id | id of campaign updated 
+| Delete Campaign | DELETE | /campaigns/id | campaign's id | id of campaign deleted
+|Donor Info| GET | /campaigns/id | campaign's id | an object containing donor info
+|Get Campaign Donors | GET | /campaigns/id/donors | campaign's id | an array of all donors who donated to that campaign
+
+Example 
+
+     {
+	    name: "Youtube Ad", //string
+	    description : "Raise money for new youtube ad ", //string
+	    goal : 10000, //integer or floating point
+	    raised: 456.85, //integer or floating point
+	    organization_id : 1 //integer
+    }
+
+------
 ###  Organizations
-| Purpose | Method | Enpoint | Requirements |
---------- | -------- | --------- | -------------- 
-| Create Organization | POST | /organizations | name(string), mission(optional)|
-| Get Organization by Id | GET | /organizations/id | Organization's id |
-|Find Organization by name| GET |/organizations/name| Organizations's name|
-| Update Organization | PUT | /organizations/id | organizations's id |
-| Delete Organization | DELETE | /organizations/id | organization's id |
-| Organization Info| GET | /organizations/id | campaign's id |
+| Purpose | Method | Enpoint | Requirements | Response
+--------- | -------- | --------- | --------------------|-----
+| Create Organization | POST | /organizations | name(string), mission(optional)| id of the organization created
+| Get Organization by Id | GET | /organizations/id | Organization's id | an object containing info about organization
+|Find Organization by name| GET |/organizations/name| Organizations's name| an object containing infor about organization
+| Update Organization | PUT | /organizations/id | organizations's id |the id of organization updated
+| Delete Organization | DELETE | /organizations/id | organization's id | id of organization deleted
 
+
+Example: 
+
+    {
+    name : "Fresh Fruit",//string
+    mission : "To educate others about the importance of eating fresh fruits and vegetables" //string
+     }
 
  ** You can use underscores for spaces when finding and organization by name. Should work with space as well
