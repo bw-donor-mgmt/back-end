@@ -23,6 +23,25 @@ exports.up = function(knex) {
             .onDelete('RESTRICT')
             .onUpdate('CASCADE')
     })
+
+    .createTable('users-orgs', table => {
+        table.increments(); 
+        table
+            .integer('user_id')
+            .unsigned()
+            .references('id')
+            .inTable('users')
+            .onDelete('RESTRICT')
+            .onUpdate('CASCADE')
+
+        table
+            .integer('organization_id')
+            .unsigned()
+            .references('id')
+            .inTable('organizations')
+            .onDelete('RESTRICT')
+            .onUpdate('CASCADE')
+    })
     
 
     .createTable('campaigns', table => {
@@ -83,9 +102,11 @@ exports.down = function(knex) {
     .dropTableIfExists('donations')
     .dropTableIfExists('donors')
     .dropTableIfExists('campaigns')
+    .dropTableIfExists('users-orgs')
     .dropTableIfExists('users')
     .dropTableIfExists('organizations')
     
 };
 
-//did not use seeds since database will be populated by users
+
+
