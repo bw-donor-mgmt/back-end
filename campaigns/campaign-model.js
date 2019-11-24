@@ -19,6 +19,6 @@ const updateCampaign = (id, changes) => knex('campaigns').where({id}).update(cha
 const deleteCampaign = id => knex('campaigns').where({id}).delete().returning('id');
 
 //get total for amount raised
-const totalRaised = id => knex('donations').sum('amount').where('id', '=', `${id}`);
+const totalRaised = id => knex('donations').sum('amount').where('campaign_id', '=', `${id}`);
 
 module.exports = {addCampaign, getCampaignByName,  getCampaignsByOrg, getCampaignById, updateCampaign, deleteCampaign, totalRaised}
