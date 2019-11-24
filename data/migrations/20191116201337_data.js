@@ -18,6 +18,7 @@ exports.up = function(knex) {
         table
             .integer('organization_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('organizations')
             .onDelete('RESTRICT')
@@ -29,6 +30,7 @@ exports.up = function(knex) {
         table
             .integer('user_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('users')
             .onDelete('RESTRICT')
@@ -37,6 +39,7 @@ exports.up = function(knex) {
         table
             .integer('organization_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('organizations')
             .onDelete('RESTRICT')
@@ -50,11 +53,13 @@ exports.up = function(knex) {
         table.string('description', 500)
         table.decimal('goal', 8, 2)
         table.decimal('raised', 8, 2)
+        table.string('image', 500).defaultTo('https://upload.wikimedia.org/wikipedia/commons/6/62/%22No_Image%22_placeholder.png')
 
         //one organization can have multiple campaigns
         table
             .integer('organization_id')
             .unsigned()
+            .notNullable()
             .references('id')
             .inTable('organizations')
             .onDelete('RESTRICT')
@@ -78,6 +83,7 @@ exports.up = function(knex) {
         //multiple donations can be made to one campaign
         table
             .integer('campaign_id')
+            .notNullable()
             .unsigned()
             .references('id')
             .inTable('campaigns')
@@ -86,6 +92,7 @@ exports.up = function(knex) {
         //one donor can make multiple donations
         table
             .integer('donor_id')
+            .notNullable()
             .unsigned()
             .references('id')
             .inTable('donors')
