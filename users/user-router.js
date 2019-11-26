@@ -1,4 +1,5 @@
 
+const bcrypt = require('bcryptjs'); 
 const router = require('express').Router(); 
 
 const Users = require('./user-model.js'); 
@@ -101,9 +102,17 @@ router.get('/:id/donors', (req, res) => {
 
 /*************UPDATES A USER**************/
 router.put('/:id', (req, res) => { 
+    let password; 
+    if(req.body.password){
+        password = bcrypt.hashSync(req.body.password, 10); 
+    }
+    
     Users
-        .updateUser(req.params.id, req.body)
-        .then(r => res.status(200).json({message: `User with id: ${req.params.id} was successfully updated!`}))
+        .updateUser(req.params.id, {password: password, ...req.body})
+        .then(r => {
+            
+            res.status(200).json({message: `User with id: ${req.params.id} was successfully updated!`})
+        })
         .catch(error => res.status(400).json(error))
 })
 
