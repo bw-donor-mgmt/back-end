@@ -28,6 +28,59 @@ router.get('/:id/info', (req, res) => {
         .catch(e => res.status(400).json(e))
 })
 
+//get donors by organizations
+
+//get organization by donor
+router.get('/:id/donors', (req, res) => {
+    /*
+        
+        get donations and store in array
+        get donors and store in array
+
+        filter through campaigns by organization_id and store in campaigns(array)
+        for each campaign in campaigns find donations with correct campaign_ids store that in array
+        for each donation find donors with id
+        filter out all repeats
+        
+    */
+    
+    Donors.getDonors()
+    .then(r => {
+        const donors = r; 
+        const results = []; 
+        Campaigns
+        .getCampaignsByOrg(req.params.id)
+        .then(r => {
+            const campaigns = r; 
+
+            Donations
+            .getDonations()
+            .then(r => {
+                const donations = r; 
+                const donations2 = []; 
+                campaigns.forEach(campaign => {
+                    donations.forEach(donation => {
+                        if (donation.campaign_id === campaign.id){
+                            donations2.push(donation)
+                        }
+                    })
+
+                })
+
+                donations2.forEach(donation => {
+                    donors.forEach(donor => {
+                        if(donor.id === donation.donor_id){
+                            results.push(donor)
+                        }
+                    })
+                })
+
+                res.status(200).json(results.filter((item, index) => results.indexOf(item) === index));
+            })
+        })
+    })
+})
+
 //get campaigns by organization _id
 router.get('/:id/campaigns', (req, res) => {
     Campaigns
