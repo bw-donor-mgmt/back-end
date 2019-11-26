@@ -28,21 +28,10 @@ router.get('/:id/info', (req, res) => {
         .catch(e => res.status(400).json(e))
 })
 
-//get donors by organizations
+
 
 //get organization by donor
 router.get('/:id/donors', (req, res) => {
-    /*
-        
-        get donations and store in array
-        get donors and store in array
-
-        filter through campaigns by organization_id and store in campaigns(array)
-        for each campaign in campaigns find donations with correct campaign_ids store that in array
-        for each donation find donors with id
-        filter out all repeats
-        
-    */
     
     Donors.getDonors()
     .then(r => {

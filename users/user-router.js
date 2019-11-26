@@ -2,9 +2,11 @@
 const router = require('express').Router(); 
 
 const Users = require('./user-model.js'); 
-const auth = require('../auth/auth-middleware.js')
+const Campaigns = require('../campaigns/campaign-model.js')
 const UsersOrgs = require('../users-orgs/users-orgs-model.js'); 
 const Orgs = require('../organizations/org-model.js'); 
+const Donations = require('../donations/donations-model.js');
+const Donors = require('../donors/donors-model.js');
 
 /*************GET A USER INFO**************/
 
@@ -43,7 +45,58 @@ router.get('/:id/organizations', (req, res) => {
    
 })
 
+/************GET ALL DONORS FOR USER***************/
+router.get('/:id/donors', (req, res) => {
+    UsersOrgs
+            .getOrgsByUserId(req.params.id)
+            .then(
+                r => {
+                    const orgs = r;
+                    const campaigns = []
 
+                    Campaigns
+                        .getCampaigns() 
+                        .then(r => {
+                            orgs.forEach(org => {
+                                r.forEach(campaign => {
+                                    if (campaign.organization_id === org.organization_id) {
+                                        campaigns.push(campaign)
+                                    }
+
+                                })
+
+                                Donations
+                                .getDonations()
+                                .then(r => {
+                                    const donations = []; 
+                                    r.forEach(donation => {
+                                        campaigns.forEach( campaign => {
+                                            if(campaign.id === donation.campaign_id){
+                                                donations.push(donation); 
+                                            }
+                                        })
+
+                                        Donors
+                                        .getDonors()
+                                        .then(r => {
+                                            const donors = []; 
+                                            donations.forEach(donation => {
+                                                r.forEach(donor => {
+                                                    if(donor.id === donation.donor_id){
+                                                        donors.push(donor); 
+                                                    }
+                                                })
+                                            })
+                                            res.status(200).json(donors.filter((item, index) => donors.indexOf(item) === index))
+                                        })
+                                    })
+                                })
+                            })
+                        })
+
+                }
+            )
+})
 
 
 /*************UPDATES A USER**************/
