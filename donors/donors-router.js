@@ -53,9 +53,6 @@ router.get('/:id/donations', (req, res) =>{
 //update donor 
 
 router.put('/:id', (req, res) => {
-    if(req.body.password) {
-        
-    }
     Donors
         .updateDonor(req.params.id, {...req.body})
         .then(r => res.status(202).json({message: `Donor\'s with id: ${req.params.id} information was updated!`}))
