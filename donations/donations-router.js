@@ -15,7 +15,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     Donations
         .addDonation(req.body)
-        .then(r => res.status(201).json(r))
+        .then(r => res.status(201).json({message: 'Donation successfully created!'}))
         .catch(e => res.status(400).json(e))
 })
 
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     Donations
         .updateDonation(req.params.id, req.body)
-        .then(r => res.status(202).json(r))
+        .then(r => res.status(202).json({message: 'Donation successfully updated!'}))
         .catch(e => res.status(400).json(e))
 })
 
@@ -34,7 +34,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     Donations
         .deleteDonation(req.params.id)
-        .then(r => res.status(202).json(r))
+        .then(r => res.status(202).json({message: 'Donation successfully deleted!'}))
         .catch(e => res.status(400).json(e))
 })
 

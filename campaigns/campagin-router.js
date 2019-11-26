@@ -70,7 +70,7 @@ router.get('/:id/raised', (req, res)=> {
 router.post('/', (req, res) => {
     Campaigns
         .addCampaign(req.body)
-        .then(r => res.status(201).json(r))
+        .then(r => res.status(201).json({message: 'Campaign created!'}))
         .catch(e => res.status(400).json(e))
 })
 
@@ -78,14 +78,14 @@ router.post('/', (req, res) => {
 //update Campaign
 router.put('/:id', (req, res) => {
     Campaigns.updateCampaign(req.params.id, req.body)
-    .then(r => res.status(202).json(r))
+    .then(r => res.status(202).json({message: 'Campaign updated'}))
     .catch(e => res.status(400).json(e))
 })
 
 //delete a campaign
 router.delete('/:id', (req, res) => {
     Campaigns.deleteCampaign(req.params.id)
-    .then(r => res.status(202).json(r))
+    .then(r => res.status(202).json({message: 'Campaign deleted!'}))
     .catch(e => res.status(400).json(e))
 })
 module.exports = router;

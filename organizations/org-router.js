@@ -37,23 +37,26 @@ router.get('/:id/campaigns', (req, res) => {
 })
 
 
-//add donation
+//add organization
 router.post('/', (req, res) => {
     Org.addOrg(req.body)
-    .then(r => res.status(201).json(r))
+    .then(r => res.status(201).json({message: `Created a new organization`}))
     .catch(e => res.status(400).json(e))
 })
 
 //update organization
 router.put('/:id', (req, res) => {
     Org.updateOrg(req.params.id)
-        .then(r => res.status(202).json(r))
+        .then(r => res.status(202).json({message: `Successfully updated organization with id: ${req.params.id}`}))
         .catch(e => res.status(400).json(e))
 })
 
 //delete organization
 router.delete('/:id', (req, res) => {
-    Org.deleteOrg(req.params.id).then(r => res.status(202).json(r)).catch(e => res.status(400).json(e))
+    Org
+        .deleteOrg(req.params.id)
+        .then(r => res.status(202).json({message: `Successfully deleted organization with id: ${req.params.id}`}))
+        .catch(e => res.status(400).json(e))
 })
 
 module.exports = router
