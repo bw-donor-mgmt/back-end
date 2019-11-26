@@ -1,7 +1,8 @@
 const knex = require('../data/db-config.js'); 
 
+const getCampaigns = () => knex('campaigns'); 
 //create campaign
-const addCampaign = campaign => knex('campaigns').insert(campaign).returning(); 
+const addCampaign = campaign => knex('campaigns').insert(campaign).returning('id'); 
 
 //get all campaigns for organization
 const getCampaignsByOrg = organization_id => knex('campaigns').where({organization_id});
@@ -16,9 +17,9 @@ const getCampaignByName = name => knex('campaigns').whereRaw('LOWER(name) LIKE ?
 const updateCampaign = (id, changes) => knex('campaigns').where({id}).update(changes).returning('id');
 
 //delete campaign
-const deleteCampaign = id => knex('campaigns').where({id}).delete().returning();
+const deleteCampaign = id => knex('campaigns').where({id}).delete().returning('id');
 
 //get total for amount raised
 const totalRaised = id => knex('donations').sum('amount').where('campaign_id', '=', `${id}`);
 
-module.exports = {addCampaign, getCampaignByName,  getCampaignsByOrg, getCampaignById, updateCampaign, deleteCampaign, totalRaised}
+module.exports = {getCampaigns, addCampaign, getCampaignByName,  getCampaignsByOrg, getCampaignById, updateCampaign, deleteCampaign, totalRaised}

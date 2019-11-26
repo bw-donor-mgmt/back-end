@@ -12,17 +12,19 @@ exports.up = function(knex) {
 
     .createTable('users', table => {
         table.increments(); 
-        table.string('username', 255).notNullable();
-        table.string('password', 255).notNullable();
-        //one organization can multiple board members
         table
-            .integer('organization_id')
-            .unsigned()
-            .notNullable()
-            .references('id')
-            .inTable('organizations')
-            .onDelete('RESTRICT')
-            .onUpdate('CASCADE')
+            .string('username', 255)
+            .unique()
+            .notNullable();
+        table
+            .string('email', 255)
+            .unique()
+            .notNullable();
+        table
+            .string('password', 255)
+            .notNullable();
+        //one organization can multiple board members
+       
     })
 
     .createTable('users-orgs', table => {
@@ -44,6 +46,9 @@ exports.up = function(knex) {
             .inTable('organizations')
             .onDelete('RESTRICT')
             .onUpdate('CASCADE')
+
+        table
+            .unique(['user_id', 'organization_id'])
     })
     
 

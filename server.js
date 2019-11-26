@@ -9,17 +9,16 @@ const helmet = require('helmet');
 const server = express(); 
 
 //use libraries
-
-server.use(helmet()); 
 server.use(express.json()); 
+server.use(helmet()); 
 server.use(cors()); 
+
 
 
 const port = process.env.PORT || 4400; 
 
 
 server.listen(port, () => console.log(`SERVER IS RUNNING ON ${port}`)); 
-
 
 //export server
 

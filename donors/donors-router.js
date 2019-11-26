@@ -1,8 +1,5 @@
 const router = require('express').Router(); 
 
-//to update password
-const bcrypt = require('bcryptjs'); 
-const jwt = require('jsonwebtoken'); 
 
 //models
 const Donors = require('./donors-model.js');
@@ -20,7 +17,7 @@ router.post('/', (req, res) => {
 router.post('/:id/donations', (req, res) => {
     Donations
     .addDonationByDonor(req.params.id)
-    .then(r => res.status(201).json(r))
+    .then(r => res.status(201).json({message: `Donation created for donor with id: ${req.params.id}`}))
     .catch(e => res.status(400).json(e))
 })
 
@@ -50,15 +47,15 @@ router.get('/:id/donations', (req, res) =>{
         .catch(e => res.status(400).json(e))
 })
 
+
+
+
 //update donor 
 
 router.put('/:id', (req, res) => {
-    if(req.body.password) {
-        
-    }
     Donors
         .updateDonor(req.params.id, {...req.body})
-        .then(r => res.status(202).json(r))
+        .then(r => res.status(202).json({message: `Donor\'s with id: ${req.params.id} information was updated!`}))
         .catch(e => res.status(400).json(e))
 })
 
@@ -67,7 +64,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     Donors
         .deleteDonor(req.params.id)
-        .then(r => res.status(200).json(r))
+        .then(r => res.status(200).json({message: `Donor with id: ${req.params.id} was deleted!`}))
         .catch(e => res.status(400).json(e))
 })
 

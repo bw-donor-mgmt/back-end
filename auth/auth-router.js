@@ -7,12 +7,13 @@ const jwt = require('jsonwebtoken');
 
 const Users = require('../users/user-model.js'); 
 const Org = require('../organizations/org-model.js');
+const UsersOrgs = require('../users-orgs/users-orgs-model.js')
 const {validateUser} = require('../users/users-helper.js');
 
 /*************REGISTERS A USER**************/
 
 router.post('/register', (req, res) => {
-    let {username, password, organization} = req.body; 
+    let {username, password, organization, email} = req.body; 
 
     const validatedResult = validateUser(req.body)
     if (validatedResult.isSuccessful === true){
@@ -27,9 +28,12 @@ router.post('/register', (req, res) => {
             if(r)
                 { 
                     Users
-                        .addUser({username: username, password: password, organization_id: r.id})
+                        .addUser({username: username, password: password, email: email})
                         .then(saved => {
-                            res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
+
+                            UsersOrgs.add({user_id: saved[0], organization_id: r.id})
+                            .then(r =>  res.status(201).json({message:`welcome user ${username}!`, id: saved[0], email: email, token: token}))
+                            .catch(e => res.status(500).json(e))
                         })
                         .catch(error => {
                             res.status(500).json(error)
@@ -38,10 +42,12 @@ router.post('/register', (req, res) => {
                 else{
                     Org.addOrg({name: `${organization}`})
                         .then(r => Users
-                            .addUser({username: username, password: password, organization_id: r[0]})
+                            .addUser({username: username, password: password, organization_id: r[0], email: email})
                             .then(saved => {
-                                console.log(saved)
-                                res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token});
+                               
+                                UsersOrgs.add({user_id: saved[0], organization: r[0]})
+                                .then(r =>res.status(201).json({message:`welcome user ${username}!`, id: saved[0], token: token}))
+                                .catch(e => res.status(500).json(e))
                             })
                             .catch(error => {
                                 res.status(500).json(error)
