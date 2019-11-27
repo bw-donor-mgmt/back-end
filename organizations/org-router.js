@@ -82,7 +82,7 @@ router.get('/:id/campaigns', (req, res) => {
 //add organization
 router.post('/', (req, res) => {
     Org.addOrg(req.body)
-    .then(r => res.status(201).json({message: `Created a new organization`}))
+    .then(r => res.status(201).json(r))
     .catch(e => res.status(400).json(e))
 })
 

@@ -45,6 +45,34 @@ router.get('/:id/organizations', (req, res) => {
         .catch(e => res.status(500).json(e))
    
 })
+/**********Create Organization for User***********/
+router.post('/:id/addorganization', (req, res) => {
+    
+    Orgs.findOrgByName(req.body.name)
+    .first()
+    .then(r => {
+        if(r){
+           UsersOrgs
+            .add({user_id: req.params.id, organization_id: r.id})
+            .then(r => res.status(201).json({message: "organization added to user account"}))
+            .catch(e => res.status(500).json(e))
+        }
+        else{
+            Orgs
+                .addOrg(req.body)
+                .then(r => {
+                    UsersOrgs
+                        .add({user_id: req.params.id, organization_id: r})
+                        .then(r => res.status(200).json({message: "new organization created and added to user account"}))
+                        .catch( e => res.status(500).json(e))
+                })
+        } 
+
+    })
+    .catch(e => res.status(500).json(e))
+    
+    
+})
 
 /************GET ALL DONORS FOR USER***************/
 router.get('/:id/donors', (req, res) => {
