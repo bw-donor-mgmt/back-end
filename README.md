@@ -13,6 +13,7 @@ The backend is hosted using Heroku [here](https://bountiful2.herokuapp.com/). Th
 |User Info| GET | /user/id | user's id |
 |get donors for all user's organizations| GET | '/user/id/donors' |array of all donors for that user
 |user's organizations | GET | /user/id/organizations | an array of user's organizations
+|Add Organization to User Account | POST | /user/id/addorganization| organization's name as "name" | message stating organization was created and/or added to user account
 
 #### Data Types 
 |Field Name | Data Type|
